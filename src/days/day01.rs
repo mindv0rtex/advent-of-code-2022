@@ -1,22 +1,29 @@
-use anyhow::{Context, Result};
 use itertools::Itertools;
+use std::{num::ParseIntError, str::FromStr};
 
-fn find_max_calories<'a>(lines: impl Iterator<Item = &'a str>) -> Result<(u32, u32)> {
+fn find_max_calories<'a>(
+    lines: impl Iterator<Item = &'a str>,
+) -> Result<(u32, u32), ParseIntError> {
     let groups = lines.map(|l| l.trim()).group_by(|l| !l.is_empty());
-    let mut sums: Vec<u32> = groups
-        .into_iter()
-        .filter_map(|(non_empty, g)| non_empty.then_some(g))
-        .map(|g| g.map(|l| l.parse::<u32>()).fold_ok(0, std::ops::Add::add))
-        .try_collect()
-        .with_context(|| "Parsing input as ints failed somewhere")?;
-
-    sums.select_nth_unstable_by_key(2, |s| std::cmp::Reverse(*s));
-    let max_calories = sums[..3].iter().copied().max().unwrap_or(0);
-    let top_3_sum = sums[..3].iter().sum();
-    Ok((max_calories, top_3_sum))
+    let mut top_three = [0; 3];
+    for (has_items, group) in groups.into_iter() {
+        if !has_items {
+            continue;
+        }
+        let sum = group.map(u32::from_str).sum::<Result<_, _>>()?;
+        for i in 0..3 {
+            if sum < top_three[i] {
+                continue;
+            }
+            top_three.copy_within(i..2, i + 1);
+            top_three[i] = sum;
+            break;
+        }
+    }
+    Ok((top_three[0], top_three.iter().sum()))
 }
 
-pub(crate) fn run() -> Result<(u32, u32)> {
+pub(crate) fn run() -> Result<(u32, u32), ParseIntError> {
     let input = include_str!("data/day01.txt");
     let mut lines = input.lines();
     find_max_calories(&mut lines)
