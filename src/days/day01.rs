@@ -28,8 +28,5 @@ fn test_solution() {
         "1000", "2000", "3000", "", "4000", "", "5000", "6000", "", "7000", "8000", "9000", "",
         "10000",
     ];
-    assert_eq!(
-        find_max_calories(values.into_iter()).unwrap(),
-        (24000, 45000)
-    );
+    assert_eq!(find_max_calories(values.into_iter()).unwrap(), (24000, 45000));
 }

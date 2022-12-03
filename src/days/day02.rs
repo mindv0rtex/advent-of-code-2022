@@ -6,10 +6,8 @@ pub struct AlignedAs<Align, Bytes: ?Sized> {
 
 macro_rules! include_bytes_align_as {
     ($align_ty:ty, $path:literal) => {{
-        static ALIGNED: &AlignedAs<$align_ty, [u8]> = &AlignedAs {
-            _align: [],
-            bytes: *include_bytes!($path),
-        };
+        static ALIGNED: &AlignedAs<$align_ty, [u8]> =
+            &AlignedAs { _align: [], bytes: *include_bytes!($path) };
         &ALIGNED.bytes
     }};
 }
@@ -61,10 +59,7 @@ fn find_score(input: &[u8], scores: u32) -> Result<u32, bytemuck::PodCastError> 
 
 pub(crate) fn run() -> Result<(u32, u32), bytemuck::PodCastError> {
     let input = include_bytes_align_as!(u32, "data/day02.txt");
-    Ok((
-        find_score(input, 0xa2623179)?,
-        find_score(input, 0xa311bb29)?,
-    ))
+    Ok((find_score(input, 0xa2623179)?, find_score(input, 0xa311bb29)?))
 }
 
 #[test]
