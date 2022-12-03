@@ -1,26 +1,18 @@
-use itertools::Itertools;
-use std::{num::ParseIntError, str::FromStr};
+use std::num::ParseIntError;
 
 fn find_max_calories<'a>(
     lines: impl Iterator<Item = &'a str>,
 ) -> Result<(u32, u32), ParseIntError> {
-    let groups = lines.map(|l| l.trim()).group_by(|l| !l.is_empty());
-    let mut top_three = [0; 3];
-    for (has_items, group) in groups.into_iter() {
-        if !has_items {
-            continue;
-        }
-        let sum = group.map(u32::from_str).sum::<Result<_, _>>()?;
-        for i in 0..3 {
-            if sum < top_three[i] {
-                continue;
-            }
-            top_three.copy_within(i..2, i + 1);
-            top_three[i] = sum;
-            break;
+    let mut arr: [u32; 4] = [0; 4];
+    for v in lines {
+        if v.is_empty() {
+            arr.sort();
+            arr[0] = 0;
+        } else {
+            arr[0] += v.parse::<u32>()?;
         }
     }
-    Ok((top_three[0], top_three.iter().sum()))
+    Ok((arr[3], arr[1] + arr[2] + arr[3]))
 }
 
 pub(crate) fn run() -> Result<(u32, u32), ParseIntError> {
