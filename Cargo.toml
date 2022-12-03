@@ -8,4 +8,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 automod = "1.0"
+bytemuck = "1.12"
 itertools = "0.10"
+rand = "0.8"

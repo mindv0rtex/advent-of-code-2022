@@ -7,5 +7,11 @@ fn main() -> anyhow::Result<()> {
     let solution = days::day01::run()?;
     println!("Part 1 answer: {}", solution.0);
     println!("Part 2 answer: {}", solution.1);
+
+    println!("Day 02\n------\n");
+    let solution = days::day02::run();
+    println!("Part 1 answer: {}", solution.0);
+    println!("Part 2 answer: {}", solution.1);
+
     Ok(())
 }
