@@ -8,6 +8,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 automod = "1.0"
-bytemuck = "1.12"
+bytemuck = {version="1.12", features=["extern_crate_std"]}
 itertools = "0.10"
 rand = "0.8"

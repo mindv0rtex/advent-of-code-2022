@@ -3,16 +3,17 @@ use std::num::ParseIntError;
 fn find_max_calories<'a>(
     lines: impl Iterator<Item = &'a str>,
 ) -> Result<(u32, u32), ParseIntError> {
-    let mut arr: [u32; 4] = [0; 4];
-    for v in lines {
-        if v.is_empty() {
-            arr.sort();
-            arr[0] = 0;
+    let mut top_sums: [u32; 4] = [0; 4];
+    for line in lines {
+        if line.is_empty() {
+            top_sums.sort();
+            top_sums[0] = 0;
         } else {
-            arr[0] += v.parse::<u32>()?;
+            top_sums[0] += line.parse::<u32>()?;
         }
     }
-    Ok((arr[3], arr[1] + arr[2] + arr[3]))
+    top_sums.sort();
+    Ok((top_sums[3], top_sums[1..].iter().sum()))
 }
 
 pub(crate) fn run() -> Result<(u32, u32), ParseIntError> {

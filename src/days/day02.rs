@@ -52,21 +52,24 @@ fn find_magic() {
     }
 }
 
-fn find_score(input: &[u8], scores: u32) -> u32 {
-    bytemuck::cast_slice::<_, u32>(input)
+fn find_score(input: &[u8], scores: u32) -> Result<u32, bytemuck::PodCastError> {
+    Ok(bytemuck::try_cast_slice::<_, u32>(input)?
         .iter()
         .map(|&x| (scores >> (x.wrapping_mul(0x55c11a41) >> 27)) & 0xf)
-        .sum()
+        .sum())
 }
 
-pub(crate) fn run() -> (u32, u32) {
+pub(crate) fn run() -> Result<(u32, u32), bytemuck::PodCastError> {
     let input = include_bytes_align_as!(u32, "data/day02.txt");
-    (find_score(input, 0xa2623179), find_score(input, 0xa311bb29))
+    Ok((
+        find_score(input, 0xa2623179)?,
+        find_score(input, 0xa311bb29)?,
+    ))
 }
 
 #[test]
 fn test_solution() {
     let values = b"A Y\nB X\nC Z\n";
-    assert_eq!(find_score(&values[..], 0xa2623179), 15);
-    assert_eq!(find_score(&values[..], 0xa311bb29), 12);
+    assert_eq!(find_score(&values[..], 0xa2623179).unwrap(), 15);
+    assert_eq!(find_score(&values[..], 0xa311bb29).unwrap(), 12);
 }
