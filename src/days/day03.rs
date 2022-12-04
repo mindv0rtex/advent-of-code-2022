@@ -4,9 +4,9 @@ fn pack_to_bitset(compartment: &[u8]) -> u64 {
     compartment.iter().fold(0, |acc, x| acc | (1u64 << (x - b'A')))
 }
 
-fn priority(x: u64) -> u32 {
-    let x = x.trailing_zeros();
-    return if x < 26 { x + 27 } else { x - 31 };
+fn priority(bitset: u64) -> u32 {
+    let zs = bitset.trailing_zeros();
+    return if zs < 26 { zs + 27 } else { zs - 31 };
 }
 
 fn find_solution(input: &[u8]) -> (u32, u32) {

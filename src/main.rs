@@ -16,7 +16,12 @@ fn main() -> anyhow::Result<()> {
     println!("Day 03\n------");
     let solution = days::day03::run();
     println!("Part 1 answer: {}", solution.0);
-    println!("Part 2 answer: {}", solution.1);
+    println!("Part 2 answer: {}\n", solution.1);
+
+    println!("Day 04\n------");
+    let solution = days::day04::run();
+    println!("Part 1 answer: {}", solution.0);
+    println!("Part 2 answer: {}\n", solution.1);
 
     Ok(())
 }
