@@ -61,7 +61,7 @@ struct Pos {
     offset: usize,
 }
 
-fn find_solution(mut input: &[u8], offset_fn: impl Fn(usize, usize) -> usize) -> String {
+fn find_solution(mut input: &[u8], is_9000: bool) -> String {
     let stacks = unsafe { parse_stacks(&mut input) };
     let moves = unsafe { parse_moves(&mut input) };
 
@@ -76,7 +76,9 @@ fn find_solution(mut input: &[u8], offset_fn: impl Fn(usize, usize) -> usize) ->
                 pos.offset += mv.amount;
             } else if pos.col == mv.to {
                 if pos.offset < mv.amount {
-                    pos.offset = offset_fn(pos.offset, mv.amount);
+                    if is_9000 {
+                        pos.offset = mv.amount - pos.offset - 1;
+                    }
                     pos.col = mv.from;
                 } else {
                     pos.offset -= mv.amount;
@@ -92,7 +94,7 @@ fn find_solution(mut input: &[u8], offset_fn: impl Fn(usize, usize) -> usize) ->
 
 pub(crate) fn run() -> (String, String) {
     let input = include_bytes!("data/day05.txt");
-    (find_solution(input, |offset, amt| amt - offset - 1), find_solution(input, |offset, _| offset))
+    (find_solution(input, true), find_solution(input, false))
 }
 
 #[test]
