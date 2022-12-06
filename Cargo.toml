@@ -7,9 +7,11 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0"
+arrayvec = "0.7"
 automod = "1.0"
 bytemuck = {version="1.12", features=["extern_crate_std"]}
 itertools = "0.10"
+memchr = "2.5"
 rand = "0.8"
 
 [profile.release]
