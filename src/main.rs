@@ -30,5 +30,10 @@ fn main() -> anyhow::Result<()> {
     println!("Part 1 answer: {}", solution.0);
     println!("Part 2 answer: {}\n", solution.1);
 
+    println!("Day 06\n------");
+    let solution = days::day06::run();
+    println!("Part 1 answer: {}", solution.0);
+    println!("Part 2 answer: {}\n", solution.1);
+
     Ok(())
 }

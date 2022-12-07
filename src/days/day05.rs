@@ -88,7 +88,7 @@ fn find_solution(mut input: &[u8], is_9000: bool) -> String {
     }
     positions
         .iter()
-        .map(|pos| char::from(stacks[pos.col][stacks[pos.col].len() - 1 - pos.offset as usize]))
+        .map(|pos| char::from(stacks[pos.col][stacks[pos.col].len() - 1 - pos.offset]))
         .collect()
 }
 
@@ -108,6 +108,6 @@ move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2";
-    assert_eq!(&find_solution(input, |offset, amt| amt - offset - 1), &"CMZ");
-    assert_eq!(&find_solution(input, |offset, _| offset), &"MCD");
+    assert_eq!(&find_solution(input, true), &"CMZ");
+    assert_eq!(&find_solution(input, false), &"MCD");
 }
